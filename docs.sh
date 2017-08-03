@@ -14,8 +14,8 @@ EOF
 
 git stash save
 commit=$(git rev-parse HEAD)
-git checkout master
-godoc ./go/mobycore > /tmp/index.html
+git checkout 17.06
+godoc -html tiborvass.github.io/devkit/go/mobycore > /tmp/index.html
 git checkout $commit
 git stash pop
 cat /tmp/index.html >> go/mobycore/index.html
