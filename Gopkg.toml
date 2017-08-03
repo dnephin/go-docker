@@ -1,0 +1,52 @@
+[[constraint]]
+  branch = "v0.4.2"
+  name = "github.com/Microsoft/go-winio"
+[[constraint]]
+  branch = "v1.0.3"
+  name = "github.com/sirupsen/logrus"
+[[constraint]]
+  revision = "b38e5838b7b2f2ad48e06ec4b500011976080621"
+  name = "github.com/docker/distribution"
+[[constraint]]
+  revision = "f888a25ff5bc9bb7c95400ec19b9a5fa0d738bab"
+  name = "github.com/docker/docker"
+[[constraint]]
+  revision = "e15c02316c12de00874640cd76311849de2aeed5"
+  name = "github.com/docker/go-connections"
+[[constraint]]
+  revision = "9e638d38cf6977a37a8ea0078f3ee75a7cdb2dd1"
+  name = "github.com/docker/go-units"
+[[constraint]]
+  revision = "9cbd2a1374f46905c68a4eb3694a130610adc62a"
+  name = "github.com/docker/libtrust"
+[[constraint]]
+  revision = "a6d0ee40d4207ea02364bd3b9e8e77b9159ba1eb"
+  name = "github.com/opencontainers/go-digest"
+[[constraint]]
+  revision = "f03dbe35d449c54915d235f1a3cf8f585a24babe"
+  name = "github.com/opencontainers/image-spec"
+[[constraint]]
+  revision = "810190ceaa507aa2727d7ae6f4790c76ec150bd2"
+  name = "github.com/opencontainers/runc"
+  source = "https://github.com/docker/runc"
+[[constraint]]
+  revision = "839d9e913e063e28dfd0e6c7b7512793e0a48be9"
+  name = "github.com/pkg/errors"
+[[constraint]]
+  revision = "3fbbcd23f1cb824e69491a5930cfeff09b12f4d2"
+  name = "golang.org/x/crypto"
+[[constraint]]
+  revision = "c427ad74c6d7a814201695e9ffde0c5d400a7674"
+  name = "golang.org/x/net"
+[[constraint]]
+  revision = "8f0908ab3b2457e2e15403d3697c9ef5cb4b57a9"
+  name = "golang.org/x/sys"
+
+
+# notary
+[[constraint]]
+  branch = "master"
+  name = "github.com/docker/notary"
+[[constraint]]
+  revision = "d30aec9fd63c35133f8f79c3412ad91a3b08be06"
+  name = "github.com/docker/go"
