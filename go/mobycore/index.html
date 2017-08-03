@@ -76,11 +76,11 @@ import (
 	&#34;fmt&#34;
 
 	&#34;tiborvass.github.io/devkit/go/mobycore/api/types&#34;
-	&#34;github.com/moby/moby-core/client&#34;
+	&#34;tiborvass.github.io/devkit/go/mobycore&#34;
 )
 
 func main() {
-	cli, err := client.NewEnvClient()
+	cli, err := mobycore.NewEnvClient()
 	if err != nil {
 		panic(err)
 	}
@@ -915,7 +915,7 @@ ErrRedirect is the error returned by checkRedirect when the request is non-GET.
 		
 			
 			
-			<h2 id="CheckRedirect">func <a href="/src/target/client.go?s=3102:3166#L88">CheckRedirect</a>
+			<h2 id="CheckRedirect">func <a href="/src/target/client.go?s=3110:3174#L88">CheckRedirect</a>
 				<a class="permalink" href="#CheckRedirect">&#xb6;</a>
 			</h2>
 			<pre>func CheckRedirect(req *<a href="/pkg/net/http/">http</a>.<a href="/pkg/net/http/#Request">Request</a>, via []*<a href="/pkg/net/http/">http</a>.<a href="/pkg/net/http/#Request">Request</a>) <a href="/pkg/builtin/#error">error</a></pre>
@@ -1162,7 +1162,7 @@ when a volume is not found in the docker host.
 		
 			
 			
-			<h2 id="ParseHost">func <a href="/src/target/client.go?s=7851:7910#L241">ParseHost</a>
+			<h2 id="ParseHost">func <a href="/src/target/client.go?s=7859:7918#L241">ParseHost</a>
 				<a class="permalink" href="#ParseHost">&#xb6;</a>
 			</h2>
 			<pre>func ParseHost(host <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
@@ -1249,7 +1249,7 @@ CheckpointAPIClient defines API client methods for the checkpoints
 		
 			
 			
-			<h2 id="Client">type <a href="/src/target/client.go?s=1672:2292#L57">Client</a>
+			<h2 id="Client">type <a href="/src/target/client.go?s=1680:2300#L57">Client</a>
 				<a class="permalink" href="#Client">&#xb6;</a>
 			</h2>
 			<p>
@@ -1271,7 +1271,7 @@ against a docker server.
 
 			
 				
-				<h3 id="NewClient">func <a href="/src/target/client.go?s=5015:5127#L148">NewClient</a>
+				<h3 id="NewClient">func <a href="/src/target/client.go?s=5023:5135#L148">NewClient</a>
 					<a class="permalink" href="#NewClient">&#xb6;</a>
 				</h3>
 				<pre>func NewClient(host <a href="/pkg/builtin/#string">string</a>, version <a href="/pkg/builtin/#string">string</a>, client *<a href="/pkg/net/http/">http</a>.<a href="/pkg/net/http/#Client">Client</a>, httpHeaders map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a>) (*<a href="#Client">Client</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
@@ -1290,7 +1290,7 @@ server is upgraded.
 				
 			
 				
-				<h3 id="NewEnvClient">func <a href="/src/target/client.go?s=3628:3664#L100">NewEnvClient</a>
+				<h3 id="NewEnvClient">func <a href="/src/target/client.go?s=3636:3672#L100">NewEnvClient</a>
 					<a class="permalink" href="#NewEnvClient">&#xb6;</a>
 				</h3>
 				<pre>func NewEnvClient() (*<a href="#Client">Client</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
@@ -1347,7 +1347,7 @@ CheckpointList returns the checkpoints of the given container in the docker host
 				
 			
 				
-				<h3 id="Client.ClientVersion">func (*Client) <a href="/src/target/client.go?s=7484:7525#L227">ClientVersion</a>
+				<h3 id="Client.ClientVersion">func (*Client) <a href="/src/target/client.go?s=7492:7533#L227">ClientVersion</a>
 					<a class="permalink" href="#Client.ClientVersion">&#xb6;</a>
 				</h3>
 				<pre>func (cli *<a href="#Client">Client</a>) ClientVersion() <a href="/pkg/builtin/#string">string</a></pre>
@@ -1363,7 +1363,7 @@ This operation doesn&#39;t acquire a mutex.
 				
 			
 				
-				<h3 id="Client.Close">func (*Client) <a href="/src/target/client.go?s=6612:6644#L194">Close</a>
+				<h3 id="Client.Close">func (*Client) <a href="/src/target/client.go?s=6620:6652#L194">Close</a>
 					<a class="permalink" href="#Client.Close">&#xb6;</a>
 				</h3>
 				<pre>func (cli *<a href="#Client">Client</a>) Close() <a href="/pkg/builtin/#error">error</a></pre>
@@ -1931,7 +1931,7 @@ CopyToContainer copies content into the container filesystem.
 				
 			
 				
-				<h3 id="Client.CustomHTTPHeaders">func (*Client) <a href="/src/target/client.go?s=8487:8543#L262">CustomHTTPHeaders</a>
+				<h3 id="Client.CustomHTTPHeaders">func (*Client) <a href="/src/target/client.go?s=8495:8551#L262">CustomHTTPHeaders</a>
 					<a class="permalink" href="#Client.CustomHTTPHeaders">&#xb6;</a>
 				</h3>
 				<pre>func (cli *<a href="#Client">Client</a>) CustomHTTPHeaders() map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a></pre>
@@ -2714,7 +2714,7 @@ ServiceUpdate updates a Service.
 				
 			
 				
-				<h3 id="Client.SetCustomHTTPHeaders">func (*Client) <a href="/src/target/client.go?s=8790:8856#L272">SetCustomHTTPHeaders</a>
+				<h3 id="Client.SetCustomHTTPHeaders">func (*Client) <a href="/src/target/client.go?s=8798:8864#L272">SetCustomHTTPHeaders</a>
 					<a class="permalink" href="#Client.SetCustomHTTPHeaders">&#xb6;</a>
 				</h3>
 				<pre>func (cli *<a href="#Client">Client</a>) SetCustomHTTPHeaders(headers map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a>)</pre>
@@ -2859,7 +2859,7 @@ It&#39;s up to the caller to close the stream.
 				
 			
 				
-				<h3 id="Client.UpdateClientVersion">func (*Client) <a href="/src/target/client.go?s=7689:7737#L233">UpdateClientVersion</a>
+				<h3 id="Client.UpdateClientVersion">func (*Client) <a href="/src/target/client.go?s=7697:7745#L233">UpdateClientVersion</a>
 					<a class="permalink" href="#Client.UpdateClientVersion">&#xb6;</a>
 				</h3>
 				<pre>func (cli *<a href="#Client">Client</a>) UpdateClientVersion(v <a href="/pkg/builtin/#string">string</a>)</pre>
