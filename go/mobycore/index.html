@@ -1,7 +1,805 @@
 <!DOCTYPE html><html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="go-import" content="tiborvass.github.io/devkit/go/mobycore git https://github.com/tiborvass/devkit">
+		<meta name="go-source" content="tiborvass.github.io/devkit/go/mobycore https://github.com/tiborvass/devkit/ https://github.com/tiborvass/devkit/tree/17.06{/dir} https://github.com/tiborvass/devkit/blob/17.06{/dir}/{file}#L{line}">
 	</head>
 	<body>
+PACKAGE DOCUMENTATION
+
+package mobycore
+    import "./go/mobycore"
+
+    Package mobycore is a Go client for the Docker Engine API.
+
+    The "docker" command uses this package to communicate with the daemon.
+    It can also be used by your own Go applications to do anything the
+    command-line interface does - running containers, pulling images,
+    managing swarms, etc.
+
+    For more information about the Engine API, see the documentation:
+    https://docs.docker.com/engine/reference/api/
+
+
+    Usage
+
+    You use the library by creating a client object and calling methods on
+    it. The client can be created either from environment variables with
+    NewEnvClient, or configured manually with NewClient.
+
+    For example, to list running containers (the equivalent of "docker ps"):
+
+	package main
+
+	import (
+		"context"
+		"fmt"
+
+		"tiborvass.github.io/devkit/go/mobycore/api/types"
+		"github.com/moby/moby-core/client"
+	)
+
+	func main() {
+		cli, err := client.NewEnvClient()
+		if err != nil {
+			panic(err)
+		}
+
+		containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{})
+		if err != nil {
+			panic(err)
+		}
+
+		for _, container := range containers {
+			fmt.Printf("%s %s\n", container.ID[:10], container.Image)
+		}
+	}
+
+CONSTANTS
+
+const DefaultDockerHost = "unix:///var/run/docker.sock"
+    DefaultDockerHost defines os specific default if DOCKER_HOST is unset
+
+VARIABLES
+
+var ErrRedirect = errors.New("unexpected redirect in response")
+    ErrRedirect is the error returned by checkRedirect when the request is
+    non-GET.
+
+FUNCTIONS
+
+func CheckRedirect(req *http.Request, via []*http.Request) error
+    CheckRedirect specifies the policy for dealing with redirect responses:
+    If the request is non-GET return `ErrRedirect`. Otherwise use the last
+    response.
+
+    Go 1.8 changes behavior for HTTP redirects (specificlaly 301, 307, and
+    308) in the client . The Docker client (and by extension docker API
+    client) can be made to to send a request like POST /containers//start
+    where what would normally be in the name section of the URL is empty.
+    This triggers an HTTP 301 from the daemon. In go 1.8 this 301 will be
+    converted to a GET request, and ends up getting a 404 from the daemon.
+    This behavior change manifests in the client in that before the 301 was
+    not followed and the client did not generate an error, but now results
+    in a message like Error response from daemon: page not found.
+
+func ErrorConnectionFailed(host string) error
+    ErrorConnectionFailed returns an error with host in the error message
+    when connection to docker daemon failed.
+
+func IsErrConfigNotFound(err error) bool
+    IsErrConfigNotFound returns true if the error is caused when a config is
+    not found.
+
+func IsErrConnectionFailed(err error) bool
+    IsErrConnectionFailed returns true if the error is caused by connection
+    failed.
+
+func IsErrContainerNotFound(err error) bool
+    IsErrContainerNotFound returns true if the error is caused when a
+    container is not found in the docker host.
+
+func IsErrImageNotFound(err error) bool
+    IsErrImageNotFound returns true if the error is caused when an image is
+    not found in the docker host.
+
+func IsErrNetworkNotFound(err error) bool
+    IsErrNetworkNotFound returns true if the error is caused when a network
+    is not found in the docker host.
+
+func IsErrNodeNotFound(err error) bool
+    IsErrNodeNotFound returns true if the error is caused when a node is not
+    found.
+
+func IsErrNotFound(err error) bool
+    IsErrNotFound returns true if the error is caused with an object (image,
+    container, network, volume, …) is not found in the docker host.
+
+func IsErrPluginNotFound(err error) bool
+    IsErrPluginNotFound returns true if the error is caused when a plugin is
+    not found in the docker host.
+
+func IsErrPluginPermissionDenied(err error) bool
+    IsErrPluginPermissionDenied returns true if the error is caused when a
+    user denies a plugin's permissions
+
+func IsErrSecretNotFound(err error) bool
+    IsErrSecretNotFound returns true if the error is caused when a secret is
+    not found.
+
+func IsErrServiceNotFound(err error) bool
+    IsErrServiceNotFound returns true if the error is caused when a service
+    is not found.
+
+func IsErrTaskNotFound(err error) bool
+    IsErrTaskNotFound returns true if the error is caused when a task is not
+    found.
+
+func IsErrUnauthorized(err error) bool
+    IsErrUnauthorized returns true if the error is caused when a remote
+    registry authentication fails
+
+func IsErrVolumeNotFound(err error) bool
+    IsErrVolumeNotFound returns true if the error is caused when a volume is
+    not found in the docker host.
+
+func ParseHost(host string) (string, string, string, error)
+    ParseHost verifies that the given host strings is valid.
+
+func ParseLogDetails(details string) (map[string]string, error)
+    ParseLogDetails takes a details string of key value pairs in the form
+    "k=v,l=w", where the keys and values are url query escaped, and each
+    pair is separated by a comma, returns a map. returns an error if the
+    details string is not in a valid format the exact form of details
+    encoding is implemented in api/server/httputils/write_log_stream.go
+
+TYPES
+
+type APIClient interface {
+    CommonAPIClient
+    // contains filtered or unexported methods
+}
+    APIClient is an interface that clients that talk with a docker server
+    must implement.
+
+type CheckpointAPIClient interface {
+    CheckpointCreate(ctx context.Context, container string, options types.CheckpointCreateOptions) error
+    CheckpointDelete(ctx context.Context, container string, options types.CheckpointDeleteOptions) error
+    CheckpointList(ctx context.Context, container string, options types.CheckpointListOptions) ([]types.Checkpoint, error)
+}
+    CheckpointAPIClient defines API client methods for the checkpoints
+
+type Client struct {
+    // contains filtered or unexported fields
+}
+    Client is the API client that performs all operations against a docker
+    server.
+
+func NewClient(host string, version string, client *http.Client, httpHeaders map[string]string) (*Client, error)
+    NewClient initializes a new API client for the given host and API
+    version. It uses the given http client as transport. It also initializes
+    the custom http headers to add to each request.
+
+    It won't send any version information if the version number is empty. It
+    is highly recommended that you set a version or your client may break if
+    the server is upgraded.
+
+func NewEnvClient() (*Client, error)
+    NewEnvClient initializes a new API client based on environment
+    variables. Use DOCKER_HOST to set the url to the docker server. Use
+    DOCKER_API_VERSION to set the version of the API to reach, leave empty
+    for latest. Use DOCKER_CERT_PATH to load the TLS certificates from. Use
+    DOCKER_TLS_VERIFY to enable or disable TLS verification, off by default.
+
+func (cli *Client) CheckpointCreate(ctx context.Context, container string, options types.CheckpointCreateOptions) error
+    CheckpointCreate creates a checkpoint from the given container with the
+    given name
+
+func (cli *Client) CheckpointDelete(ctx context.Context, containerID string, options types.CheckpointDeleteOptions) error
+    CheckpointDelete deletes the checkpoint with the given name from the
+    given container
+
+func (cli *Client) CheckpointList(ctx context.Context, container string, options types.CheckpointListOptions) ([]types.Checkpoint, error)
+    CheckpointList returns the checkpoints of the given container in the
+    docker host
+
+func (cli *Client) ClientVersion() string
+    ClientVersion returns the version string associated with this instance
+    of the Client. Note that this value can be changed via the
+    DOCKER_API_VERSION env var. This operation doesn't acquire a mutex.
+
+func (cli *Client) Close() error
+    Close ensures that transport.Client is closed especially needed while
+    using NewClient with *http.Client = nil for example
+    client.NewClient("unix:///var/run/docker.sock", nil, "v1.18",
+    map[string]string{"User-Agent": "engine-api-cli-1.0"})
+
+func (cli *Client) ConfigCreate(ctx context.Context, config swarm.ConfigSpec) (types.ConfigCreateResponse, error)
+    ConfigCreate creates a new Config.
+
+func (cli *Client) ConfigInspectWithRaw(ctx context.Context, id string) (swarm.Config, []byte, error)
+    ConfigInspectWithRaw returns the config information with raw data
+
+func (cli *Client) ConfigList(ctx context.Context, options types.ConfigListOptions) ([]swarm.Config, error)
+    ConfigList returns the list of configs.
+
+func (cli *Client) ConfigRemove(ctx context.Context, id string) error
+    ConfigRemove removes a Config.
+
+func (cli *Client) ConfigUpdate(ctx context.Context, id string, version swarm.Version, config swarm.ConfigSpec) error
+    ConfigUpdate attempts to update a Config
+
+func (cli *Client) ContainerAttach(ctx context.Context, container string, options types.ContainerAttachOptions) (types.HijackedResponse, error)
+    ContainerAttach attaches a connection to a container in the server. It
+    returns a types.HijackedConnection with the hijacked connection and the
+    a reader to get output. It's up to the called to close the hijacked
+    connection by calling types.HijackedResponse.Close.
+
+func (cli *Client) ContainerCommit(ctx context.Context, container string, options types.ContainerCommitOptions) (types.IDResponse, error)
+    ContainerCommit applies changes into a container and creates a new
+    tagged image.
+
+func (cli *Client) ContainerCreate(ctx context.Context, config *container.Config, hostConfig *container.HostConfig, networkingConfig *network.NetworkingConfig, containerName string) (container.ContainerCreateCreatedBody, error)
+    ContainerCreate creates a new container based in the given
+    configuration. It can be associated with a name, but it's not mandatory.
+
+func (cli *Client) ContainerDiff(ctx context.Context, containerID string) ([]container.ContainerChangeResponseItem, error)
+    ContainerDiff shows differences in a container filesystem since it was
+    started.
+
+func (cli *Client) ContainerExecAttach(ctx context.Context, execID string, config types.ExecConfig) (types.HijackedResponse, error)
+    ContainerExecAttach attaches a connection to an exec process in the
+    server. It returns a types.HijackedConnection with the hijacked
+    connection and the a reader to get output. It's up to the called to
+    close the hijacked connection by calling types.HijackedResponse.Close.
+
+func (cli *Client) ContainerExecCreate(ctx context.Context, container string, config types.ExecConfig) (types.IDResponse, error)
+    ContainerExecCreate creates a new exec configuration to run an exec
+    process.
+
+func (cli *Client) ContainerExecInspect(ctx context.Context, execID string) (types.ContainerExecInspect, error)
+    ContainerExecInspect returns information about a specific exec process
+    on the docker host.
+
+func (cli *Client) ContainerExecResize(ctx context.Context, execID string, options types.ResizeOptions) error
+    ContainerExecResize changes the size of the tty for an exec process
+    running inside a container.
+
+func (cli *Client) ContainerExecStart(ctx context.Context, execID string, config types.ExecStartCheck) error
+    ContainerExecStart starts an exec process already created in the docker
+    host.
+
+func (cli *Client) ContainerExport(ctx context.Context, containerID string) (io.ReadCloser, error)
+    ContainerExport retrieves the raw contents of a container and returns
+    them as an io.ReadCloser. It's up to the caller to close the stream.
+
+func (cli *Client) ContainerInspect(ctx context.Context, containerID string) (types.ContainerJSON, error)
+    ContainerInspect returns the container information.
+
+func (cli *Client) ContainerInspectWithRaw(ctx context.Context, containerID string, getSize bool) (types.ContainerJSON, []byte, error)
+    ContainerInspectWithRaw returns the container information and its raw
+    representation.
+
+func (cli *Client) ContainerKill(ctx context.Context, containerID, signal string) error
+    ContainerKill terminates the container process but does not remove the
+    container from the docker host.
+
+func (cli *Client) ContainerList(ctx context.Context, options types.ContainerListOptions) ([]types.Container, error)
+    ContainerList returns the list of containers in the docker host.
+
+func (cli *Client) ContainerLogs(ctx context.Context, container string, options types.ContainerLogsOptions) (io.ReadCloser, error)
+    ContainerLogs returns the logs generated by a container in an
+    io.ReadCloser. It's up to the caller to close the stream.
+
+func (cli *Client) ContainerPause(ctx context.Context, containerID string) error
+    ContainerPause pauses the main process of a given container without
+    terminating it.
+
+func (cli *Client) ContainerRemove(ctx context.Context, containerID string, options types.ContainerRemoveOptions) error
+    ContainerRemove kills and removes a container from the docker host.
+
+func (cli *Client) ContainerRename(ctx context.Context, containerID, newContainerName string) error
+    ContainerRename changes the name of a given container.
+
+func (cli *Client) ContainerResize(ctx context.Context, containerID string, options types.ResizeOptions) error
+    ContainerResize changes the size of the tty for a container.
+
+func (cli *Client) ContainerRestart(ctx context.Context, containerID string, timeout *time.Duration) error
+    ContainerRestart stops and starts a container again. It makes the daemon
+    to wait for the container to be up again for a specific amount of time,
+    given the timeout.
+
+func (cli *Client) ContainerStart(ctx context.Context, containerID string, options types.ContainerStartOptions) error
+    ContainerStart sends a request to the docker daemon to start a
+    container.
+
+func (cli *Client) ContainerStatPath(ctx context.Context, containerID, path string) (types.ContainerPathStat, error)
+    ContainerStatPath returns Stat information about a path inside the
+    container filesystem.
+
+func (cli *Client) ContainerStats(ctx context.Context, containerID string, stream bool) (types.ContainerStats, error)
+    ContainerStats returns near realtime stats for a given container. It's
+    up to the caller to close the io.ReadCloser returned.
+
+func (cli *Client) ContainerStop(ctx context.Context, containerID string, timeout *time.Duration) error
+    ContainerStop stops a container without terminating the process. The
+    process is blocked until the container stops or the timeout expires.
+
+func (cli *Client) ContainerTop(ctx context.Context, containerID string, arguments []string) (container.ContainerTopOKBody, error)
+    ContainerTop shows process information from within a container.
+
+func (cli *Client) ContainerUnpause(ctx context.Context, containerID string) error
+    ContainerUnpause resumes the process execution within a container
+
+func (cli *Client) ContainerUpdate(ctx context.Context, containerID string, updateConfig container.UpdateConfig) (container.ContainerUpdateOKBody, error)
+    ContainerUpdate updates resources of a container
+
+func (cli *Client) ContainerWait(ctx context.Context, containerID string, condition container.WaitCondition) (<-chan container.ContainerWaitOKBody, <-chan error)
+    ContainerWait waits until the specified continer is in a certain state
+    indicated by the given condition, either "not-running" (default),
+    "next-exit", or "removed".
+
+    If this client's API version is beforer 1.30, condition is ignored and
+    ContainerWait will return immediately with the two channels, as the
+    server will wait as if the condition were "not-running".
+
+    If this client's API version is at least 1.30, ContainerWait blocks
+    until the request has been acknowledged by the server (with a response
+    header), then returns two channels on which the caller can wait for the
+    exit status of the container or an error if there was a problem either
+    beginning the wait request or in getting the response. This allows the
+    caller to sychronize ContainerWait with other calls, such as specifying
+    a "next-exit" condition before issuing a ContainerStart request.
+
+func (cli *Client) ContainersPrune(ctx context.Context, pruneFilters filters.Args) (types.ContainersPruneReport, error)
+    ContainersPrune requests the daemon to delete unused data
+
+func (cli *Client) CopyFromContainer(ctx context.Context, container, srcPath string) (io.ReadCloser, types.ContainerPathStat, error)
+    CopyFromContainer gets the content from the container and returns it as
+    a Reader to manipulate it in the host. It's up to the caller to close
+    the reader.
+
+func (cli *Client) CopyToContainer(ctx context.Context, container, path string, content io.Reader, options types.CopyToContainerOptions) error
+    CopyToContainer copies content into the container filesystem.
+
+func (cli *Client) CustomHTTPHeaders() map[string]string
+    CustomHTTPHeaders returns the custom http headers associated with this
+    instance of the Client. This operation doesn't acquire a mutex.
+
+func (cli *Client) DiskUsage(ctx context.Context) (types.DiskUsage, error)
+    DiskUsage requests the current data usage from the daemon
+
+func (cli *Client) DistributionInspect(ctx context.Context, image, encodedRegistryAuth string) (registrytypes.DistributionInspect, error)
+    DistributionInspect returns the image digest with full Manifest
+
+func (cli *Client) Events(ctx context.Context, options types.EventsOptions) (<-chan events.Message, <-chan error)
+    Events returns a stream of events in the daemon. It's up to the caller
+    to close the stream by cancelling the context. Once the stream has been
+    completely read an io.EOF error will be sent over the error channel. If
+    an error is sent all processing will be stopped. It's up to the caller
+    to reopen the stream in the event of an error by reinvoking this method.
+
+func (cli *Client) ImageBuild(ctx context.Context, buildContext io.Reader, options types.ImageBuildOptions) (types.ImageBuildResponse, error)
+    ImageBuild sends request to the daemon to build images. The Body in the
+    response implement an io.ReadCloser and it's up to the caller to close
+    it.
+
+func (cli *Client) ImageCreate(ctx context.Context, parentReference string, options types.ImageCreateOptions) (io.ReadCloser, error)
+    ImageCreate creates a new image based in the parent options. It returns
+    the JSON content in the response body.
+
+func (cli *Client) ImageHistory(ctx context.Context, imageID string) ([]image.HistoryResponseItem, error)
+    ImageHistory returns the changes in an image in history format.
+
+func (cli *Client) ImageImport(ctx context.Context, source types.ImageImportSource, ref string, options types.ImageImportOptions) (io.ReadCloser, error)
+    ImageImport creates a new image based in the source options. It returns
+    the JSON content in the response body.
+
+func (cli *Client) ImageInspectWithRaw(ctx context.Context, imageID string) (types.ImageInspect, []byte, error)
+    ImageInspectWithRaw returns the image information and its raw
+    representation.
+
+func (cli *Client) ImageList(ctx context.Context, options types.ImageListOptions) ([]types.ImageSummary, error)
+    ImageList returns a list of images in the docker host.
+
+func (cli *Client) ImageLoad(ctx context.Context, input io.Reader, quiet bool) (types.ImageLoadResponse, error)
+    ImageLoad loads an image in the docker host from the client host. It's
+    up to the caller to close the io.ReadCloser in the ImageLoadResponse
+    returned by this function.
+
+func (cli *Client) ImagePull(ctx context.Context, refStr string, options types.ImagePullOptions) (io.ReadCloser, error)
+    ImagePull requests the docker host to pull an image from a remote
+    registry. It executes the privileged function if the operation is
+    unauthorized and it tries one more time. It's up to the caller to handle
+    the io.ReadCloser and close it properly.
+
+    FIXME(vdemeester): there is currently used in a few way in docker/docker
+    - if not in trusted content, ref is used to pass the whole reference,
+    and tag is empty - if in trusted content, ref is used to pass the
+    reference name, and tag for the digest
+
+func (cli *Client) ImagePush(ctx context.Context, image string, options types.ImagePushOptions) (io.ReadCloser, error)
+    ImagePush requests the docker host to push an image to a remote
+    registry. It executes the privileged function if the operation is
+    unauthorized and it tries one more time. It's up to the caller to handle
+    the io.ReadCloser and close it properly.
+
+func (cli *Client) ImageRemove(ctx context.Context, imageID string, options types.ImageRemoveOptions) ([]types.ImageDeleteResponseItem, error)
+    ImageRemove removes an image from the docker host.
+
+func (cli *Client) ImageSave(ctx context.Context, imageIDs []string) (io.ReadCloser, error)
+    ImageSave retrieves one or more images from the docker host as an
+    io.ReadCloser. It's up to the caller to store the images and close the
+    stream.
+
+func (cli *Client) ImageSearch(ctx context.Context, term string, options types.ImageSearchOptions) ([]registry.SearchResult, error)
+    ImageSearch makes the docker host to search by a term in a remote
+    registry. The list of results is not sorted in any fashion.
+
+func (cli *Client) ImageTag(ctx context.Context, source, target string) error
+    ImageTag tags an image in the docker host
+
+func (cli *Client) ImagesPrune(ctx context.Context, pruneFilters filters.Args) (types.ImagesPruneReport, error)
+    ImagesPrune requests the daemon to delete unused data
+
+func (cli *Client) Info(ctx context.Context) (types.Info, error)
+    Info returns information about the docker server.
+
+func (cli *Client) NetworkConnect(ctx context.Context, networkID, containerID string, config *network.EndpointSettings) error
+    NetworkConnect connects a container to an existent network in the docker
+    host.
+
+func (cli *Client) NetworkCreate(ctx context.Context, name string, options types.NetworkCreate) (types.NetworkCreateResponse, error)
+    NetworkCreate creates a new network in the docker host.
+
+func (cli *Client) NetworkDisconnect(ctx context.Context, networkID, containerID string, force bool) error
+    NetworkDisconnect disconnects a container from an existent network in
+    the docker host.
+
+func (cli *Client) NetworkInspect(ctx context.Context, networkID string, verbose bool) (types.NetworkResource, error)
+    NetworkInspect returns the information for a specific network configured
+    in the docker host.
+
+func (cli *Client) NetworkInspectWithRaw(ctx context.Context, networkID string, verbose bool) (types.NetworkResource, []byte, error)
+    NetworkInspectWithRaw returns the information for a specific network
+    configured in the docker host and its raw representation.
+
+func (cli *Client) NetworkList(ctx context.Context, options types.NetworkListOptions) ([]types.NetworkResource, error)
+    NetworkList returns the list of networks configured in the docker host.
+
+func (cli *Client) NetworkRemove(ctx context.Context, networkID string) error
+    NetworkRemove removes an existent network from the docker host.
+
+func (cli *Client) NetworksPrune(ctx context.Context, pruneFilters filters.Args) (types.NetworksPruneReport, error)
+    NetworksPrune requests the daemon to delete unused networks
+
+func (cli *Client) NewVersionError(APIrequired, feature string) error
+    NewVersionError returns an error if the APIVersion required if less than
+    the current supported version
+
+func (cli *Client) NodeInspectWithRaw(ctx context.Context, nodeID string) (swarm.Node, []byte, error)
+    NodeInspectWithRaw returns the node information.
+
+func (cli *Client) NodeList(ctx context.Context, options types.NodeListOptions) ([]swarm.Node, error)
+    NodeList returns the list of nodes.
+
+func (cli *Client) NodeRemove(ctx context.Context, nodeID string, options types.NodeRemoveOptions) error
+    NodeRemove removes a Node.
+
+func (cli *Client) NodeUpdate(ctx context.Context, nodeID string, version swarm.Version, node swarm.NodeSpec) error
+    NodeUpdate updates a Node.
+
+func (cli *Client) Ping(ctx context.Context) (types.Ping, error)
+    Ping pings the server and returns the value of the
+    "Docker-Experimental", "OS-Type" & "API-Version" headers
+
+func (cli *Client) PluginCreate(ctx context.Context, createContext io.Reader, createOptions types.PluginCreateOptions) error
+    PluginCreate creates a plugin
+
+func (cli *Client) PluginDisable(ctx context.Context, name string, options types.PluginDisableOptions) error
+    PluginDisable disables a plugin
+
+func (cli *Client) PluginEnable(ctx context.Context, name string, options types.PluginEnableOptions) error
+    PluginEnable enables a plugin
+
+func (cli *Client) PluginInspectWithRaw(ctx context.Context, name string) (*types.Plugin, []byte, error)
+    PluginInspectWithRaw inspects an existing plugin
+
+func (cli *Client) PluginInstall(ctx context.Context, name string, options types.PluginInstallOptions) (rc io.ReadCloser, err error)
+    PluginInstall installs a plugin
+
+func (cli *Client) PluginList(ctx context.Context, filter filters.Args) (types.PluginsListResponse, error)
+    PluginList returns the installed plugins
+
+func (cli *Client) PluginPush(ctx context.Context, name string, registryAuth string) (io.ReadCloser, error)
+    PluginPush pushes a plugin to a registry
+
+func (cli *Client) PluginRemove(ctx context.Context, name string, options types.PluginRemoveOptions) error
+    PluginRemove removes a plugin
+
+func (cli *Client) PluginSet(ctx context.Context, name string, args []string) error
+    PluginSet modifies settings for an existing plugin
+
+func (cli *Client) PluginUpgrade(ctx context.Context, name string, options types.PluginInstallOptions) (rc io.ReadCloser, err error)
+    PluginUpgrade upgrades a plugin
+
+func (cli *Client) RegistryLogin(ctx context.Context, auth types.AuthConfig) (registry.AuthenticateOKBody, error)
+    RegistryLogin authenticates the docker server with a given docker
+    registry. It returns unauthorizedError when the authentication fails.
+
+func (cli *Client) SecretCreate(ctx context.Context, secret swarm.SecretSpec) (types.SecretCreateResponse, error)
+    SecretCreate creates a new Secret.
+
+func (cli *Client) SecretInspectWithRaw(ctx context.Context, id string) (swarm.Secret, []byte, error)
+    SecretInspectWithRaw returns the secret information with raw data
+
+func (cli *Client) SecretList(ctx context.Context, options types.SecretListOptions) ([]swarm.Secret, error)
+    SecretList returns the list of secrets.
+
+func (cli *Client) SecretRemove(ctx context.Context, id string) error
+    SecretRemove removes a Secret.
+
+func (cli *Client) SecretUpdate(ctx context.Context, id string, version swarm.Version, secret swarm.SecretSpec) error
+    SecretUpdate attempts to update a Secret
+
+func (cli *Client) ServerVersion(ctx context.Context) (types.Version, error)
+    ServerVersion returns information of the docker client and server host.
+
+func (cli *Client) ServiceCreate(ctx context.Context, service swarm.ServiceSpec, options types.ServiceCreateOptions) (types.ServiceCreateResponse, error)
+    ServiceCreate creates a new Service.
+
+func (cli *Client) ServiceInspectWithRaw(ctx context.Context, serviceID string, opts types.ServiceInspectOptions) (swarm.Service, []byte, error)
+    ServiceInspectWithRaw returns the service information and the raw data.
+
+func (cli *Client) ServiceList(ctx context.Context, options types.ServiceListOptions) ([]swarm.Service, error)
+    ServiceList returns the list of services.
+
+func (cli *Client) ServiceLogs(ctx context.Context, serviceID string, options types.ContainerLogsOptions) (io.ReadCloser, error)
+    ServiceLogs returns the logs generated by a service in an io.ReadCloser.
+    It's up to the caller to close the stream.
+
+func (cli *Client) ServiceRemove(ctx context.Context, serviceID string) error
+    ServiceRemove kills and removes a service.
+
+func (cli *Client) ServiceUpdate(ctx context.Context, serviceID string, version swarm.Version, service swarm.ServiceSpec, options types.ServiceUpdateOptions) (types.ServiceUpdateResponse, error)
+    ServiceUpdate updates a Service.
+
+func (cli *Client) SetCustomHTTPHeaders(headers map[string]string)
+    SetCustomHTTPHeaders updates the custom http headers associated with
+    this instance of the Client. This operation doesn't acquire a mutex.
+
+func (cli *Client) SwarmGetUnlockKey(ctx context.Context) (types.SwarmUnlockKeyResponse, error)
+    SwarmGetUnlockKey retrieves the swarm's unlock key.
+
+func (cli *Client) SwarmInit(ctx context.Context, req swarm.InitRequest) (string, error)
+    SwarmInit initializes the swarm.
+
+func (cli *Client) SwarmInspect(ctx context.Context) (swarm.Swarm, error)
+    SwarmInspect inspects the swarm.
+
+func (cli *Client) SwarmJoin(ctx context.Context, req swarm.JoinRequest) error
+    SwarmJoin joins the swarm.
+
+func (cli *Client) SwarmLeave(ctx context.Context, force bool) error
+    SwarmLeave leaves the swarm.
+
+func (cli *Client) SwarmUnlock(ctx context.Context, req swarm.UnlockRequest) error
+    SwarmUnlock unlocks locked swarm.
+
+func (cli *Client) SwarmUpdate(ctx context.Context, version swarm.Version, swarm swarm.Spec, flags swarm.UpdateFlags) error
+    SwarmUpdate updates the swarm.
+
+func (cli *Client) TaskInspectWithRaw(ctx context.Context, taskID string) (swarm.Task, []byte, error)
+    TaskInspectWithRaw returns the task information and its raw
+    representation..
+
+func (cli *Client) TaskList(ctx context.Context, options types.TaskListOptions) ([]swarm.Task, error)
+    TaskList returns the list of tasks.
+
+func (cli *Client) TaskLogs(ctx context.Context, taskID string, options types.ContainerLogsOptions) (io.ReadCloser, error)
+    TaskLogs returns the logs generated by a task in an io.ReadCloser. It's
+    up to the caller to close the stream.
+
+func (cli *Client) UpdateClientVersion(v string)
+    UpdateClientVersion updates the version string associated with this
+    instance of the Client. This operation doesn't acquire a mutex.
+
+func (cli *Client) VolumeCreate(ctx context.Context, options volumetypes.VolumesCreateBody) (types.Volume, error)
+    VolumeCreate creates a volume in the docker host.
+
+func (cli *Client) VolumeInspect(ctx context.Context, volumeID string) (types.Volume, error)
+    VolumeInspect returns the information about a specific volume in the
+    docker host.
+
+func (cli *Client) VolumeInspectWithRaw(ctx context.Context, volumeID string) (types.Volume, []byte, error)
+    VolumeInspectWithRaw returns the information about a specific volume in
+    the docker host and its raw representation
+
+func (cli *Client) VolumeList(ctx context.Context, filter filters.Args) (volumetypes.VolumesListOKBody, error)
+    VolumeList returns the volumes configured in the docker host.
+
+func (cli *Client) VolumeRemove(ctx context.Context, volumeID string, force bool) error
+    VolumeRemove removes a volume from the docker host.
+
+func (cli *Client) VolumesPrune(ctx context.Context, pruneFilters filters.Args) (types.VolumesPruneReport, error)
+    VolumesPrune requests the daemon to delete unused data
+
+type CommonAPIClient interface {
+    ConfigAPIClient
+    ContainerAPIClient
+    DistributionAPIClient
+    ImageAPIClient
+    NodeAPIClient
+    NetworkAPIClient
+    PluginAPIClient
+    ServiceAPIClient
+    SwarmAPIClient
+    SecretAPIClient
+    SystemAPIClient
+    VolumeAPIClient
+    ClientVersion() string
+    ServerVersion(ctx context.Context) (types.Version, error)
+    UpdateClientVersion(v string)
+}
+    CommonAPIClient is the common methods between stable and experimental
+    versions of APIClient.
+
+type ConfigAPIClient interface {
+    ConfigList(ctx context.Context, options types.ConfigListOptions) ([]swarm.Config, error)
+    ConfigCreate(ctx context.Context, config swarm.ConfigSpec) (types.ConfigCreateResponse, error)
+    ConfigRemove(ctx context.Context, id string) error
+    ConfigInspectWithRaw(ctx context.Context, name string) (swarm.Config, []byte, error)
+    ConfigUpdate(ctx context.Context, id string, version swarm.Version, config swarm.ConfigSpec) error
+}
+    ConfigAPIClient defines API client methods for configs
+
+type ContainerAPIClient interface {
+    ContainerAttach(ctx context.Context, container string, options types.ContainerAttachOptions) (types.HijackedResponse, error)
+    ContainerCommit(ctx context.Context, container string, options types.ContainerCommitOptions) (types.IDResponse, error)
+    ContainerCreate(ctx context.Context, config *container.Config, hostConfig *container.HostConfig, networkingConfig *network.NetworkingConfig, containerName string) (container.ContainerCreateCreatedBody, error)
+    ContainerDiff(ctx context.Context, container string) ([]container.ContainerChangeResponseItem, error)
+    ContainerExecAttach(ctx context.Context, execID string, config types.ExecConfig) (types.HijackedResponse, error)
+    ContainerExecCreate(ctx context.Context, container string, config types.ExecConfig) (types.IDResponse, error)
+    ContainerExecInspect(ctx context.Context, execID string) (types.ContainerExecInspect, error)
+    ContainerExecResize(ctx context.Context, execID string, options types.ResizeOptions) error
+    ContainerExecStart(ctx context.Context, execID string, config types.ExecStartCheck) error
+    ContainerExport(ctx context.Context, container string) (io.ReadCloser, error)
+    ContainerInspect(ctx context.Context, container string) (types.ContainerJSON, error)
+    ContainerInspectWithRaw(ctx context.Context, container string, getSize bool) (types.ContainerJSON, []byte, error)
+    ContainerKill(ctx context.Context, container, signal string) error
+    ContainerList(ctx context.Context, options types.ContainerListOptions) ([]types.Container, error)
+    ContainerLogs(ctx context.Context, container string, options types.ContainerLogsOptions) (io.ReadCloser, error)
+    ContainerPause(ctx context.Context, container string) error
+    ContainerRemove(ctx context.Context, container string, options types.ContainerRemoveOptions) error
+    ContainerRename(ctx context.Context, container, newContainerName string) error
+    ContainerResize(ctx context.Context, container string, options types.ResizeOptions) error
+    ContainerRestart(ctx context.Context, container string, timeout *time.Duration) error
+    ContainerStatPath(ctx context.Context, container, path string) (types.ContainerPathStat, error)
+    ContainerStats(ctx context.Context, container string, stream bool) (types.ContainerStats, error)
+    ContainerStart(ctx context.Context, container string, options types.ContainerStartOptions) error
+    ContainerStop(ctx context.Context, container string, timeout *time.Duration) error
+    ContainerTop(ctx context.Context, container string, arguments []string) (container.ContainerTopOKBody, error)
+    ContainerUnpause(ctx context.Context, container string) error
+    ContainerUpdate(ctx context.Context, container string, updateConfig container.UpdateConfig) (container.ContainerUpdateOKBody, error)
+    ContainerWait(ctx context.Context, container string, condition container.WaitCondition) (<-chan container.ContainerWaitOKBody, <-chan error)
+    CopyFromContainer(ctx context.Context, container, srcPath string) (io.ReadCloser, types.ContainerPathStat, error)
+    CopyToContainer(ctx context.Context, container, path string, content io.Reader, options types.CopyToContainerOptions) error
+    ContainersPrune(ctx context.Context, pruneFilters filters.Args) (types.ContainersPruneReport, error)
+}
+    ContainerAPIClient defines API client methods for the containers
+
+type DistributionAPIClient interface {
+    DistributionInspect(ctx context.Context, image, encodedRegistryAuth string) (registry.DistributionInspect, error)
+}
+    DistributionAPIClient defines API client methods for the registry
+
+type ImageAPIClient interface {
+    ImageBuild(ctx context.Context, context io.Reader, options types.ImageBuildOptions) (types.ImageBuildResponse, error)
+    ImageCreate(ctx context.Context, parentReference string, options types.ImageCreateOptions) (io.ReadCloser, error)
+    ImageHistory(ctx context.Context, image string) ([]image.HistoryResponseItem, error)
+    ImageImport(ctx context.Context, source types.ImageImportSource, ref string, options types.ImageImportOptions) (io.ReadCloser, error)
+    ImageInspectWithRaw(ctx context.Context, image string) (types.ImageInspect, []byte, error)
+    ImageList(ctx context.Context, options types.ImageListOptions) ([]types.ImageSummary, error)
+    ImageLoad(ctx context.Context, input io.Reader, quiet bool) (types.ImageLoadResponse, error)
+    ImagePull(ctx context.Context, ref string, options types.ImagePullOptions) (io.ReadCloser, error)
+    ImagePush(ctx context.Context, ref string, options types.ImagePushOptions) (io.ReadCloser, error)
+    ImageRemove(ctx context.Context, image string, options types.ImageRemoveOptions) ([]types.ImageDeleteResponseItem, error)
+    ImageSearch(ctx context.Context, term string, options types.ImageSearchOptions) ([]registry.SearchResult, error)
+    ImageSave(ctx context.Context, images []string) (io.ReadCloser, error)
+    ImageTag(ctx context.Context, image, ref string) error
+    ImagesPrune(ctx context.Context, pruneFilter filters.Args) (types.ImagesPruneReport, error)
+}
+    ImageAPIClient defines API client methods for the images
+
+type NetworkAPIClient interface {
+    NetworkConnect(ctx context.Context, networkID, container string, config *network.EndpointSettings) error
+    NetworkCreate(ctx context.Context, name string, options types.NetworkCreate) (types.NetworkCreateResponse, error)
+    NetworkDisconnect(ctx context.Context, networkID, container string, force bool) error
+    NetworkInspect(ctx context.Context, networkID string, verbose bool) (types.NetworkResource, error)
+    NetworkInspectWithRaw(ctx context.Context, networkID string, verbose bool) (types.NetworkResource, []byte, error)
+    NetworkList(ctx context.Context, options types.NetworkListOptions) ([]types.NetworkResource, error)
+    NetworkRemove(ctx context.Context, networkID string) error
+    NetworksPrune(ctx context.Context, pruneFilter filters.Args) (types.NetworksPruneReport, error)
+}
+    NetworkAPIClient defines API client methods for the networks
+
+type NodeAPIClient interface {
+    NodeInspectWithRaw(ctx context.Context, nodeID string) (swarm.Node, []byte, error)
+    NodeList(ctx context.Context, options types.NodeListOptions) ([]swarm.Node, error)
+    NodeRemove(ctx context.Context, nodeID string, options types.NodeRemoveOptions) error
+    NodeUpdate(ctx context.Context, nodeID string, version swarm.Version, node swarm.NodeSpec) error
+}
+    NodeAPIClient defines API client methods for the nodes
+
+type PluginAPIClient interface {
+    PluginList(ctx context.Context, filter filters.Args) (types.PluginsListResponse, error)
+    PluginRemove(ctx context.Context, name string, options types.PluginRemoveOptions) error
+    PluginEnable(ctx context.Context, name string, options types.PluginEnableOptions) error
+    PluginDisable(ctx context.Context, name string, options types.PluginDisableOptions) error
+    PluginInstall(ctx context.Context, name string, options types.PluginInstallOptions) (io.ReadCloser, error)
+    PluginUpgrade(ctx context.Context, name string, options types.PluginInstallOptions) (io.ReadCloser, error)
+    PluginPush(ctx context.Context, name string, registryAuth string) (io.ReadCloser, error)
+    PluginSet(ctx context.Context, name string, args []string) error
+    PluginInspectWithRaw(ctx context.Context, name string) (*types.Plugin, []byte, error)
+    PluginCreate(ctx context.Context, createContext io.Reader, options types.PluginCreateOptions) error
+}
+    PluginAPIClient defines API client methods for the plugins
+
+type SecretAPIClient interface {
+    SecretList(ctx context.Context, options types.SecretListOptions) ([]swarm.Secret, error)
+    SecretCreate(ctx context.Context, secret swarm.SecretSpec) (types.SecretCreateResponse, error)
+    SecretRemove(ctx context.Context, id string) error
+    SecretInspectWithRaw(ctx context.Context, name string) (swarm.Secret, []byte, error)
+    SecretUpdate(ctx context.Context, id string, version swarm.Version, secret swarm.SecretSpec) error
+}
+    SecretAPIClient defines API client methods for secrets
+
+type ServiceAPIClient interface {
+    ServiceCreate(ctx context.Context, service swarm.ServiceSpec, options types.ServiceCreateOptions) (types.ServiceCreateResponse, error)
+    ServiceInspectWithRaw(ctx context.Context, serviceID string, options types.ServiceInspectOptions) (swarm.Service, []byte, error)
+    ServiceList(ctx context.Context, options types.ServiceListOptions) ([]swarm.Service, error)
+    ServiceRemove(ctx context.Context, serviceID string) error
+    ServiceUpdate(ctx context.Context, serviceID string, version swarm.Version, service swarm.ServiceSpec, options types.ServiceUpdateOptions) (types.ServiceUpdateResponse, error)
+    ServiceLogs(ctx context.Context, serviceID string, options types.ContainerLogsOptions) (io.ReadCloser, error)
+    TaskLogs(ctx context.Context, taskID string, options types.ContainerLogsOptions) (io.ReadCloser, error)
+    TaskInspectWithRaw(ctx context.Context, taskID string) (swarm.Task, []byte, error)
+    TaskList(ctx context.Context, options types.TaskListOptions) ([]swarm.Task, error)
+}
+    ServiceAPIClient defines API client methods for the services
+
+type SwarmAPIClient interface {
+    SwarmInit(ctx context.Context, req swarm.InitRequest) (string, error)
+    SwarmJoin(ctx context.Context, req swarm.JoinRequest) error
+    SwarmGetUnlockKey(ctx context.Context) (types.SwarmUnlockKeyResponse, error)
+    SwarmUnlock(ctx context.Context, req swarm.UnlockRequest) error
+    SwarmLeave(ctx context.Context, force bool) error
+    SwarmInspect(ctx context.Context) (swarm.Swarm, error)
+    SwarmUpdate(ctx context.Context, version swarm.Version, swarm swarm.Spec, flags swarm.UpdateFlags) error
+}
+    SwarmAPIClient defines API client methods for the swarm
+
+type SystemAPIClient interface {
+    Events(ctx context.Context, options types.EventsOptions) (<-chan events.Message, <-chan error)
+    Info(ctx context.Context) (types.Info, error)
+    RegistryLogin(ctx context.Context, auth types.AuthConfig) (registry.AuthenticateOKBody, error)
+    DiskUsage(ctx context.Context) (types.DiskUsage, error)
+    Ping(ctx context.Context) (types.Ping, error)
+}
+    SystemAPIClient defines API client methods for the system
+
+type VolumeAPIClient interface {
+    VolumeCreate(ctx context.Context, options volumetypes.VolumesCreateBody) (types.Volume, error)
+    VolumeInspect(ctx context.Context, volumeID string) (types.Volume, error)
+    VolumeInspectWithRaw(ctx context.Context, volumeID string) (types.Volume, []byte, error)
+    VolumeList(ctx context.Context, filter filters.Args) (volumetypes.VolumesListOKBody, error)
+    VolumeRemove(ctx context.Context, volumeID string, force bool) error
+    VolumesPrune(ctx context.Context, pruneFilter filters.Args) (types.VolumesPruneReport, error)
+}
+    VolumeAPIClient defines API client methods for the volumes
+
+SUBDIRECTORIES
+
+	api
 
 	</body>
 </html>

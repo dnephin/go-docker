@@ -1,8 +1,13 @@
 #!/bin/bash
 
+STABLE=17.06
+
 cat <<EOF > go/mobycore/index.html
 <!DOCTYPE html><html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="go-import" content="tiborvass.github.io/devkit/go/mobycore git https://github.com/tiborvass/devkit">
+		<meta name="go-source" content="tiborvass.github.io/devkit/go/mobycore https://github.com/tiborvass/devkit/ https://github.com/tiborvass/devkit/tree/17.06{/dir} https://github.com/tiborvass/devkit/blob/17.06{/dir}/{file}#L{line}">
 	</head>
 	<body>
 EOF
