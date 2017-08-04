@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cat <<EOF | tee index.html > go/mobycore/index.html
+mobycore=go/docker/mobycore
+
+cat <<EOF | tee index.html > $mobycore/index.html
 <!DOCTYPE html><html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -11,12 +13,12 @@ cat <<EOF | tee index.html > go/mobycore/index.html
 EOF
 
 git stash save
-commit=$(git rev-parse HEAD)
+commit=$(git rev-parse --abbrev-ref HEAD)
 git checkout master
-godoc -html tiborvass.github.io/devkit/go/mobycore > /tmp/index.html
+godoc -html tiborvass.github.io/devkit/$mobycore > /tmp/index.html
 git checkout $commit
 git stash pop
-cat /tmp/index.html >> go/mobycore/index.html
+cat /tmp/index.html >> $mobycore/index.html
 
 cat <<EOF >> index.html
 		<h1>Docker Devkit</h1>
@@ -29,7 +31,7 @@ cat <<EOF >> index.html
 		</ul>
 EOF
 
-cat <<EOF | tee -a index.html >> go/mobycore/index.html
+cat <<EOF | tee -a index.html >> $mobycore/index.html
 	</body>
 </html>
 EOF
