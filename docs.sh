@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mobycore=go/docker/mobycore
+mobycore=go/docker
 
 cat <<EOF | tee index.html > $mobycore/index.html
 <!DOCTYPE html><html>
@@ -27,7 +27,7 @@ cat <<EOF >> index.html
 		</ul>
 		<h2>Go</h2>
 		<ul>
-			<li><a href="go/mobycore">Moby Core</a></li>
+			<li><a href="$mobycore">Moby Core</a></li>
 		</ul>
 EOF
 
