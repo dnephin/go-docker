@@ -1,13 +1,15 @@
 #!/bin/bash
 
-mobycore=go/docker
+domain=golang.docker.io
+gitrepo="https://github.com/tiborvass/docker-sdk-go"
+mobycore=docker
 
 cat <<EOF | tee index.html > $mobycore/index.html
 <!DOCTYPE html><html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<meta name="go-import" content="tiborvass.github.io/devkit git https://github.com/tiborvass/devkit">
-		<meta name="go-source" content="tiborvass.github.io/devkit https://github.com/tiborvass/devkit/ https://github.com/tiborvass/devkit/tree/master{/dir} https://github.com/tiborvass/devkit/blob/master{/dir}/{file}#L{line}">
+		<meta name="go-import" content="$domain git $gitrepo">
+		<meta name="go-source" content="$domain $gitrepo/ $gitrepo/tree/master{/dir} $gitrepo/blob/master{/dir}/{file}#L{line}">
 	</head>
 	<body>
 EOF
@@ -15,7 +17,7 @@ EOF
 git stash save
 commit=$(git rev-parse --abbrev-ref HEAD)
 git checkout master
-godoc -html tiborvass.github.io/devkit/$mobycore > /tmp/index.html
+godoc -html $domain/$mobycore > /tmp/index.html
 git checkout $commit
 git stash pop
 cat /tmp/index.html >> $mobycore/index.html
