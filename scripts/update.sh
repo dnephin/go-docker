@@ -75,7 +75,7 @@ pushd distribution
 find registry/client -name '*.go' -type f -exec sed -i'' -E 's#github.com/docker/distribution/registry/client(/?)#'"${importpath}"'/registry\1#g' {} \;
 find registry/client -name '*.go' -depth 1 -print | xargs $sed -i'' -E 's,^package client\b,package registry // import "'${importpath}'/registry",g'
 mkdir -p "$dir/registry"
-cp -rf registry/client/*.go "$dir/registry/"
+cp -rf registry/client/* "$dir/registry/"
 popd
 
 cd "$dir"
