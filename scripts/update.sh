@@ -81,3 +81,14 @@ popd
 cd "$dir"
 # reset README.md
 git checkout README.md
+
+function strip_doc() {
+	tail -n +$(grep -n '^package ' "$1" | cut -d: -f1) "$1" > "$1".new
+	mv "$1".new "$1"
+}
+
+# replace documentation
+strip_doc client.go
+cp scripts/files/root_doc.go doc.go
+cp scripts/files/notary_doc.go notary/doc.go
+cp scripts/files/registry_doc.go registry/doc.go
