@@ -1,4 +1,4 @@
-package notary // import "golang.docker.io/go-docker/notary"
+package notary // import "golang.docker.com/go-docker/notary"
 
 import (
 	"bytes"
@@ -24,7 +24,7 @@ import (
 	ctxu "github.com/docker/distribution/context"
 	"github.com/docker/go/canonical/json"
 	"github.com/docker/notary"
-	"golang.docker.io/go-docker/notary/changelist"
+	"golang.docker.com/go-docker/notary/changelist"
 	"github.com/docker/notary/cryptoservice"
 	"github.com/docker/notary/passphrase"
 	"github.com/docker/notary/server"

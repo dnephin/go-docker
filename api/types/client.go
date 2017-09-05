@@ -5,8 +5,8 @@ import (
 	"io"
 	"net"
 
-	"golang.docker.io/go-docker/api/types/container"
-	"golang.docker.io/go-docker/api/types/filters"
+	"golang.docker.com/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types/filters"
 	"github.com/docker/go-units"
 )
 

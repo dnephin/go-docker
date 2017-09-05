@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"golang.docker.io/go-docker/api"
+	"golang.docker.com/go-docker/api"
 	"github.com/docker/go-connections/sockets"
 	"github.com/docker/go-connections/tlsconfig"
 )

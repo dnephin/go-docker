@@ -1,18 +1,18 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"io"
 	"time"
 
-	"golang.docker.io/go-docker/api/types"
-	"golang.docker.io/go-docker/api/types/container"
-	"golang.docker.io/go-docker/api/types/events"
-	"golang.docker.io/go-docker/api/types/filters"
-	"golang.docker.io/go-docker/api/types/image"
-	"golang.docker.io/go-docker/api/types/network"
-	"golang.docker.io/go-docker/api/types/registry"
-	"golang.docker.io/go-docker/api/types/swarm"
-	volumetypes "golang.docker.io/go-docker/api/types/volume"
+	"golang.docker.com/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types/events"
+	"golang.docker.com/go-docker/api/types/filters"
+	"golang.docker.com/go-docker/api/types/image"
+	"golang.docker.com/go-docker/api/types/network"
+	"golang.docker.com/go-docker/api/types/registry"
+	"golang.docker.com/go-docker/api/types/swarm"
+	volumetypes "golang.docker.com/go-docker/api/types/volume"
 	"golang.org/x/net/context"
 )
 

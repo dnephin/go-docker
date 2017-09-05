@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"io"
@@ -7,7 +7,7 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/docker/distribution/reference"
-	"golang.docker.io/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types"
 )
 
 // ImageImport creates a new image based in the source options.

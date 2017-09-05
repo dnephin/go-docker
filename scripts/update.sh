@@ -13,7 +13,7 @@ NOTARY_BRANCH=9ae66476d611af5df9b7efb09f830e6fc16e8a65
 # Hint: to get list of exported identifiers:
 # go doc | tail -n +3 | sed -E 's,^ *[^ ]+ ([^ (]+).*,\1,g'
 
-domain=golang.docker.io
+domain=golang.docker.com
 urlpath=go-docker
 importpath="$domain/$urlpath"
 package=docker

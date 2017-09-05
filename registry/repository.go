@@ -1,4 +1,4 @@
-package registry // import "golang.docker.io/go-docker/registry"
+package registry // import "golang.docker.com/go-docker/registry"
 
 import (
 	"bytes"
@@ -17,7 +17,7 @@ import (
 	"github.com/docker/distribution/context"
 	"github.com/docker/distribution/reference"
 	"github.com/docker/distribution/registry/api/v2"
-	"golang.docker.io/go-docker/registry/transport"
+	"golang.docker.com/go-docker/registry/transport"
 	"github.com/docker/distribution/registry/storage/cache"
 	"github.com/docker/distribution/registry/storage/cache/memory"
 	"github.com/opencontainers/go-digest"

@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"encoding/base64"
@@ -10,8 +10,8 @@ import (
 
 	"golang.org/x/net/context"
 
-	"golang.docker.io/go-docker/api/types"
-	"golang.docker.io/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types/container"
 )
 
 // ImageBuild sends request to the daemon to build images.

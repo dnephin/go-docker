@@ -5,8 +5,8 @@ import (
 	"io"
 	"time"
 
-	"golang.docker.io/go-docker/api/types"
-	"golang.docker.io/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types/container"
 )
 
 // ContainerAttachConfig holds the streams to use when connecting to a container to view logs.

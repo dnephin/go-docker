@@ -1,10 +1,10 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"net/url"
 	"time"
 
-	timetypes "golang.docker.io/go-docker/api/types/time"
+	timetypes "golang.docker.com/go-docker/api/types/time"
 	"golang.org/x/net/context"
 )
 

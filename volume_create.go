@@ -1,10 +1,10 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"encoding/json"
 
-	"golang.docker.io/go-docker/api/types"
-	volumetypes "golang.docker.io/go-docker/api/types/volume"
+	"golang.docker.com/go-docker/api/types"
+	volumetypes "golang.docker.com/go-docker/api/types/volume"
 	"golang.org/x/net/context"
 )
 

@@ -3,8 +3,8 @@ package swarm
 import (
 	"time"
 
-	"golang.docker.io/go-docker/api/types/container"
-	"golang.docker.io/go-docker/api/types/mount"
+	"golang.docker.com/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types/mount"
 )
 
 // DNSConfig specifies DNS related configurations in resolver configuration file (resolv.conf)

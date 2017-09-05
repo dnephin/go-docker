@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 // DefaultDockerHost defines os specific default if DOCKER_HOST is unset
 const DefaultDockerHost = "npipe:////./pipe/docker_engine"

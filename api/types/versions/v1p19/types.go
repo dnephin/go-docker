@@ -2,9 +2,9 @@
 package v1p19
 
 import (
-	"golang.docker.io/go-docker/api/types"
-	"golang.docker.io/go-docker/api/types/container"
-	"golang.docker.io/go-docker/api/types/versions/v1p20"
+	"golang.docker.com/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types/versions/v1p20"
 	"github.com/docker/go-connections/nat"
 )
 

@@ -1,6 +1,6 @@
 // +build pkcs11
 
-package notary // import "golang.docker.io/go-docker/notary"
+package notary // import "golang.docker.com/go-docker/notary"
 
 import (
 	"fmt"

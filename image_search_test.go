@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"bytes"
@@ -11,9 +11,9 @@ import (
 	"golang.org/x/net/context"
 
 	"encoding/json"
-	"golang.docker.io/go-docker/api/types"
-	"golang.docker.io/go-docker/api/types/filters"
-	"golang.docker.io/go-docker/api/types/registry"
+	"golang.docker.com/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types/filters"
+	"golang.docker.com/go-docker/api/types/registry"
 )
 
 func TestImageSearchAnyError(t *testing.T) {

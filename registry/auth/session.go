@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"github.com/Sirupsen/logrus"
-	"golang.docker.io/go-docker/registry"
-	"golang.docker.io/go-docker/registry/auth/challenge"
-	"golang.docker.io/go-docker/registry/transport"
+	"golang.docker.com/go-docker/registry"
+	"golang.docker.com/go-docker/registry/auth/challenge"
+	"golang.docker.com/go-docker/registry/transport"
 )
 
 var (

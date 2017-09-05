@@ -1,9 +1,9 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"fmt"
 
-	"golang.docker.io/go-docker/api/types/versions"
+	"golang.docker.com/go-docker/api/types/versions"
 	"github.com/pkg/errors"
 )
 

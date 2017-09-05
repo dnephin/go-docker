@@ -1,6 +1,6 @@
 // The client can read and operate on older repository formats
 
-package notary // import "golang.docker.io/go-docker/notary"
+package notary // import "golang.docker.com/go-docker/notary"
 
 import (
 	"io"

@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/Sirupsen/logrus"
-	"golang.docker.io/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types"
 	"github.com/docker/docker/pkg/ioutils"
 	"github.com/docker/docker/pkg/system"
 	"github.com/docker/libtrust"

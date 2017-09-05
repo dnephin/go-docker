@@ -8,12 +8,12 @@ import (
 	"strings"
 	"time"
 
-	"golang.docker.io/go-docker/api/types/container"
-	"golang.docker.io/go-docker/api/types/filters"
-	"golang.docker.io/go-docker/api/types/mount"
-	"golang.docker.io/go-docker/api/types/network"
-	"golang.docker.io/go-docker/api/types/registry"
-	"golang.docker.io/go-docker/api/types/swarm"
+	"golang.docker.com/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types/filters"
+	"golang.docker.com/go-docker/api/types/mount"
+	"golang.docker.com/go-docker/api/types/network"
+	"golang.docker.com/go-docker/api/types/registry"
+	"golang.docker.com/go-docker/api/types/swarm"
 	"github.com/docker/go-connections/nat"
 )
 

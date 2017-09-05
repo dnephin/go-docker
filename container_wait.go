@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"encoding/json"
@@ -6,8 +6,8 @@ import (
 
 	"golang.org/x/net/context"
 
-	"golang.docker.io/go-docker/api/types/container"
-	"golang.docker.io/go-docker/api/types/versions"
+	"golang.docker.com/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types/versions"
 )
 
 // ContainerWait waits until the specified continer is in a certain state

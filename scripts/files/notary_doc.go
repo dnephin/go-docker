@@ -9,4 +9,4 @@ signatures, managing keys, etc.
 For more information about Notary, see the documentation:
 https://docs.docker.com/notary/getting_started/
 */
-package notary // import "golang.docker.io/go-docker/notary"
+package notary // import "golang.docker.com/go-docker/notary"

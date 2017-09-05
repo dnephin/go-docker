@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 // parse_logs.go contains utility helpers for getting information out of docker
 // log lines. really, it only contains ParseDetails right now. maybe in the

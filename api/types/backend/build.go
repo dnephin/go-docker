@@ -3,7 +3,7 @@ package backend
 import (
 	"io"
 
-	"golang.docker.io/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types"
 	"github.com/docker/docker/pkg/streamformatter"
 )
 

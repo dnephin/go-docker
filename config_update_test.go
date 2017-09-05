@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"bytes"
@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	"golang.docker.io/go-docker/api/types/swarm"
+	"golang.docker.com/go-docker/api/types/swarm"
 )
 
 func TestConfigUpdateError(t *testing.T) {

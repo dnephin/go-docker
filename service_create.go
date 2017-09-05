@@ -1,13 +1,13 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"encoding/json"
 	"fmt"
 
 	"github.com/docker/distribution/reference"
-	"golang.docker.io/go-docker/api/types"
-	registrytypes "golang.docker.io/go-docker/api/types/registry"
-	"golang.docker.io/go-docker/api/types/swarm"
+	"golang.docker.com/go-docker/api/types"
+	registrytypes "golang.docker.com/go-docker/api/types/registry"
+	"golang.docker.com/go-docker/api/types/swarm"
 	"github.com/opencontainers/go-digest"
 	"golang.org/x/net/context"
 )

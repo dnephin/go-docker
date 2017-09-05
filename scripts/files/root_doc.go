@@ -57,4 +57,4 @@ branch or tag and run:
 	dep ensure
 
 */
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"

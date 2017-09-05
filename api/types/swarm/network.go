@@ -1,7 +1,7 @@
 package swarm
 
 import (
-	"golang.docker.io/go-docker/api/types/network"
+	"golang.docker.com/go-docker/api/types/network"
 )
 
 // Endpoint represents an endpoint.

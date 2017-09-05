@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"crypto/tls"
@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"golang.docker.io/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types"
 	"github.com/docker/docker/pkg/tlsconfig"
 	"github.com/docker/go-connections/sockets"
 	"golang.org/x/net/context"

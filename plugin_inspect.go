@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"bytes"
@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"golang.docker.io/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types"
 	"golang.org/x/net/context"
 )
 

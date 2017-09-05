@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"encoding/base64"
@@ -12,7 +12,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	"golang.docker.io/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types"
 )
 
 // ContainerStatPath returns Stat information about a path inside the container filesystem.

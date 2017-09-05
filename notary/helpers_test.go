@@ -1,4 +1,4 @@
-package notary // import "golang.docker.io/go-docker/notary"
+package notary // import "golang.docker.com/go-docker/notary"
 
 import (
 	"bytes"
@@ -9,7 +9,7 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	"golang.docker.io/go-docker/notary/changelist"
+	"golang.docker.com/go-docker/notary/changelist"
 	"github.com/docker/notary/storage"
 	"github.com/docker/notary/tuf/data"
 	"github.com/docker/notary/tuf/testutils"

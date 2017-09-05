@@ -7,4 +7,4 @@ https://docs.docker.com/registry/
 The Docker Registry API this package interacts with is at:
 https://docs.docker.com/registry/spec/api/
 */
-package registry // import "golang.docker.io/go-docker/registry"
+package registry // import "golang.docker.com/go-docker/registry"

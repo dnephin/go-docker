@@ -1,4 +1,4 @@
-package registry // import "golang.docker.io/go-docker/registry"
+package registry // import "golang.docker.com/go-docker/registry"
 
 import (
 	"bytes"

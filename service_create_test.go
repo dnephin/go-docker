@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"bytes"
@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"golang.docker.io/go-docker/api/types"
-	registrytypes "golang.docker.io/go-docker/api/types/registry"
-	"golang.docker.io/go-docker/api/types/swarm"
+	"golang.docker.com/go-docker/api/types"
+	registrytypes "golang.docker.com/go-docker/api/types/registry"
+	"golang.docker.com/go-docker/api/types/swarm"
 	"github.com/opencontainers/go-digest"
 	"github.com/opencontainers/image-spec/specs-go/v1"
 	"golang.org/x/net/context"

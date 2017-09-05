@@ -1,4 +1,4 @@
-package registry // import "golang.docker.io/go-docker/registry"
+package registry // import "golang.docker.com/go-docker/registry"
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 	"net/http"
 
 	"github.com/docker/distribution/registry/api/errcode"
-	"golang.docker.io/go-docker/registry/auth/challenge"
+	"golang.docker.com/go-docker/registry/auth/challenge"
 )
 
 // ErrNoErrorsInBody is returned when an HTTP response body parses to an empty

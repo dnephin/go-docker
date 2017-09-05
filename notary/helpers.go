@@ -1,4 +1,4 @@
-package notary // import "golang.docker.io/go-docker/notary"
+package notary // import "golang.docker.com/go-docker/notary"
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/Sirupsen/logrus"
-	"golang.docker.io/go-docker/notary/changelist"
+	"golang.docker.com/go-docker/notary/changelist"
 	store "github.com/docker/notary/storage"
 	"github.com/docker/notary/tuf"
 	"github.com/docker/notary/tuf/data"

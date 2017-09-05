@@ -1,8 +1,8 @@
 package types
 
 import (
-	"golang.docker.io/go-docker/api/types/container"
-	"golang.docker.io/go-docker/api/types/network"
+	"golang.docker.com/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types/network"
 )
 
 // configs holds structs used for internal communication between the

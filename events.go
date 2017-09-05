@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"encoding/json"
@@ -7,10 +7,10 @@ import (
 
 	"golang.org/x/net/context"
 
-	"golang.docker.io/go-docker/api/types"
-	"golang.docker.io/go-docker/api/types/events"
-	"golang.docker.io/go-docker/api/types/filters"
-	timetypes "golang.docker.io/go-docker/api/types/time"
+	"golang.docker.com/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types/events"
+	"golang.docker.com/go-docker/api/types/filters"
+	timetypes "golang.docker.com/go-docker/api/types/time"
 )
 
 // Events returns a stream of events in the daemon. It's up to the caller to close the stream

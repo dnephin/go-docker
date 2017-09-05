@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"golang.docker.io/go-docker/api/types/versions"
+	"golang.docker.com/go-docker/api/types/versions"
 )
 
 // Args stores filter arguments as map key:{map key: bool}.

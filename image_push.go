@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/docker/distribution/reference"
-	"golang.docker.io/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types"
 )
 
 // ImagePush requests the docker host to push an image to a remote registry.

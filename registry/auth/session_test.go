@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"golang.docker.io/go-docker/registry/auth/challenge"
-	"golang.docker.io/go-docker/registry/transport"
+	"golang.docker.com/go-docker/registry/auth/challenge"
+	"golang.docker.com/go-docker/registry/transport"
 	"github.com/docker/distribution/testutil"
 )
 

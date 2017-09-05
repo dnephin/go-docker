@@ -7,7 +7,7 @@ package volume
 // See hack/generate-swagger-api.sh
 // ----------------------------------------------------------------------------
 
-import "golang.docker.io/go-docker/api/types"
+import "golang.docker.com/go-docker/api/types"
 
 // VolumesListOKBody volumes list o k body
 // swagger:model VolumesListOKBody

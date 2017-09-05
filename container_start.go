@@ -1,11 +1,11 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"net/url"
 
 	"golang.org/x/net/context"
 
-	"golang.docker.io/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types"
 )
 
 // ContainerStart sends a request to the docker daemon to start a container.

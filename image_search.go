@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 import (
 	"encoding/json"
@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"net/url"
 
-	"golang.docker.io/go-docker/api/types"
-	"golang.docker.io/go-docker/api/types/filters"
-	"golang.docker.io/go-docker/api/types/registry"
+	"golang.docker.com/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types/filters"
+	"golang.docker.com/go-docker/api/types/registry"
 	"golang.org/x/net/context"
 )
 

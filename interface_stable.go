@@ -1,4 +1,4 @@
-package docker // import "golang.docker.io/go-docker"
+package docker // import "golang.docker.com/go-docker"
 
 // APIClient is an interface that clients that talk with a docker server must implement.
 type APIClient interface {

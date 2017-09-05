@@ -3,9 +3,9 @@ package container
 import (
 	"strings"
 
-	"golang.docker.io/go-docker/api/types/blkiodev"
-	"golang.docker.io/go-docker/api/types/mount"
-	"golang.docker.io/go-docker/api/types/strslice"
+	"golang.docker.com/go-docker/api/types/blkiodev"
+	"golang.docker.com/go-docker/api/types/mount"
+	"golang.docker.com/go-docker/api/types/strslice"
 	"github.com/docker/go-connections/nat"
 	"github.com/docker/go-units"
 )

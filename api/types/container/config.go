@@ -3,7 +3,7 @@ package container
 import (
 	"time"
 
-	"golang.docker.io/go-docker/api/types/strslice"
+	"golang.docker.com/go-docker/api/types/strslice"
 	"github.com/docker/go-connections/nat"
 )
 

@@ -1,7 +1,7 @@
-package notary // import "golang.docker.io/go-docker/notary"
+package notary // import "golang.docker.com/go-docker/notary"
 
 import (
-	"golang.docker.io/go-docker/notary/changelist"
+	"golang.docker.com/go-docker/notary/changelist"
 	"github.com/docker/notary/tuf"
 	"github.com/docker/notary/tuf/data"
 )

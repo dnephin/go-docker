@@ -2,8 +2,8 @@
 package v1p20
 
 import (
-	"golang.docker.io/go-docker/api/types"
-	"golang.docker.io/go-docker/api/types/container"
+	"golang.docker.com/go-docker/api/types"
+	"golang.docker.com/go-docker/api/types/container"
 	"github.com/docker/go-connections/nat"
 )
 
