@@ -49,7 +49,7 @@ for folder in api client; do
 done
 cp client/*.go "$dir/"
 cp -rf api "$dir/"
-rm -rf "$dir/api/server" "$dir/swarm_get_unlock_key_test.go"
+rm -rf "$dir/api/server" "$dir/swarm_get_unlock_key_test.go" "$dir/api/errdefs" "$dir/api/templates" "$dir/api/types/backend"
 popd
 
 pushd "$dir"
