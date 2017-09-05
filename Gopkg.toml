@@ -1,17 +1,17 @@
 [[constraint]]
-  branch = "v0.4.2"
+  branch = "v0.4.5"
   name = "github.com/Microsoft/go-winio"
 [[constraint]]
   branch = "v1.0.3"
   name = "github.com/sirupsen/logrus"
 [[constraint]]
-  revision = "b38e5838b7b2f2ad48e06ec4b500011976080621"
+  revision = "edc3ab29cdff8694dd6feb85cfeb4b5f1b38ed9c"
   name = "github.com/docker/distribution"
 [[constraint]]
-  revision = "f888a25ff5bc9bb7c95400ec19b9a5fa0d738bab"
+  revision = "d7b4c7e0eac223eda54940adbb4c44bf71ec039c"
   name = "github.com/docker/docker"
 [[constraint]]
-  revision = "e15c02316c12de00874640cd76311849de2aeed5"
+  revision = "3ede32e2033de7505e6500d6c868c2b9ed9f169d"
   name = "github.com/docker/go-connections"
 [[constraint]]
   revision = "9e638d38cf6977a37a8ea0078f3ee75a7cdb2dd1"
@@ -23,12 +23,11 @@
   revision = "a6d0ee40d4207ea02364bd3b9e8e77b9159ba1eb"
   name = "github.com/opencontainers/go-digest"
 [[constraint]]
-  revision = "f03dbe35d449c54915d235f1a3cf8f585a24babe"
+  revision = "372ad780f63454fbbbbcc7cf80e5b90245c13e13"
   name = "github.com/opencontainers/image-spec"
 [[constraint]]
-  revision = "810190ceaa507aa2727d7ae6f4790c76ec150bd2"
+  revision = "3f2f8b84a77f73d38244dd690525642a72156c64"
   name = "github.com/opencontainers/runc"
-  source = "https://github.com/docker/runc"
 [[constraint]]
   revision = "839d9e913e063e28dfd0e6c7b7512793e0a48be9"
   name = "github.com/pkg/errors"
@@ -36,10 +35,10 @@
   revision = "3fbbcd23f1cb824e69491a5930cfeff09b12f4d2"
   name = "golang.org/x/crypto"
 [[constraint]]
-  revision = "c427ad74c6d7a814201695e9ffde0c5d400a7674"
+  revision = "7dcfb8076726a3fdd9353b6b8a1f1b6be6811bd6"
   name = "golang.org/x/net"
 [[constraint]]
-  revision = "8f0908ab3b2457e2e15403d3697c9ef5cb4b57a9"
+  revision = "07c182904dbd53199946ba614a412c61d3c548f5"
   name = "golang.org/x/sys"
 
 
