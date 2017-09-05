@@ -3,7 +3,7 @@
 set -e
 
 ENGINE_BRANCH=master
-NOTARY_BRANCH=9ae66476d611af5df9b7efb09f830e6fc16e8a65
+NOTARY_BRANCH=master
 # Distribution is taken from engine's vendor.conf
 
 # branch that needs docker/docker be rewritten to moby/moby-core. Following was used on docker-ce:
@@ -95,6 +95,6 @@ function strip_doc() {
 
 # replace documentation
 strip_doc client.go
-cp scripts/files/root_doc.go doc.go
-cp scripts/files/notary_doc.go notary/doc.go
-cp scripts/files/registry_doc.go registry/doc.go
+cp scripts/files/*.go .
+cp scripts/files/notary/*.go notary/
+cp scripts/files/registry/*.go registry/

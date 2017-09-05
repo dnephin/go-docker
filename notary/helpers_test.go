@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
 	"golang.docker.com/go-docker/notary/changelist"
 	"github.com/docker/notary/storage"
 	"github.com/docker/notary/tuf/data"
 	"github.com/docker/notary/tuf/testutils"
+	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
 )
 

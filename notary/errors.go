@@ -2,6 +2,7 @@ package notary // import "golang.docker.com/go-docker/notary"
 
 import (
 	"fmt"
+
 	"github.com/docker/notary/tuf/data"
 )
 

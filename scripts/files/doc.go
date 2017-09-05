@@ -19,8 +19,8 @@ For example, to list running containers (the equivalent of "docker ps"):
 		"context"
 		"fmt"
 
-		"golang.docker.io/go-docker/api/types"
-		"golang.docker.io/go-docker"
+		"golang.docker.com/go-docker"
+		"golang.docker.com/go-docker/api/types"
 	)
 
 	func main() {
