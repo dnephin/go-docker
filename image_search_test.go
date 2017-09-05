@@ -2,18 +2,17 @@ package docker // import "golang.docker.com/go-docker"
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"testing"
 
-	"golang.org/x/net/context"
-
-	"encoding/json"
 	"golang.docker.com/go-docker/api/types"
 	"golang.docker.com/go-docker/api/types/filters"
 	"golang.docker.com/go-docker/api/types/registry"
+	"golang.org/x/net/context"
 )
 
 func TestImageSearchAnyError(t *testing.T) {

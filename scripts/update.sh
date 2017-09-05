@@ -2,7 +2,7 @@
 
 set -e
 
-ENGINE_BRANCH=17.06
+ENGINE_BRANCH=master
 NOTARY_BRANCH=9ae66476d611af5df9b7efb09f830e6fc16e8a65
 # Distribution is taken from engine's vendor.conf
 
@@ -26,14 +26,14 @@ tmp=/tmp/testing
 set -x
 cd "$tmp"
 
-[ ! -d docker-ce ] && git clone --depth 1 -b "$ENGINE_BRANCH" https://github.com/docker/docker-ce
+[ ! -d docker ] && git clone --depth 1 -b "$ENGINE_BRANCH" https://github.com/docker/docker
 [ ! -d notary ] && git clone https://github.com/docker/notary
 pushd notary
 git checkout $NOTARY_BRANCH
 popd
 
 
-pushd docker-ce/components/engine
+pushd docker
 distribution_commit=$(grep 'github.com/docker/distribution' vendor.conf | head -1 | cut -d' ' -f2)
 popd
 
@@ -42,7 +42,7 @@ pushd distribution
 git checkout $distribution_commit
 popd
 
-pushd docker-ce/components/engine
+pushd docker
 for folder in api client; do
 	find "$folder" -name '*.go' -type f -exec sed -i'' -E 's#github.com/docker/docker/api(/?)#'"${importpath}"'/api\1#g' {} \;
 	find "$folder" -name '*.go' -type f -exec sed -i'' -E 's#github.com/docker/docker/client(/?)#'"${importpath}"'\1#g' {} \;

@@ -10,10 +10,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"golang.docker.com/go-docker/registry"
 	"golang.docker.com/go-docker/registry/auth/challenge"
 	"golang.docker.com/go-docker/registry/transport"
+	"github.com/sirupsen/logrus"
 )
 
 var (
