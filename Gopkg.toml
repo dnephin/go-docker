@@ -13,7 +13,6 @@
 
 [[constraint]]
   name = "github.com/docker/notary"
-  version = "master"
 
 [[constraint]]
   name = "github.com/gogo/protobuf"
