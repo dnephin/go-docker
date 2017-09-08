@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/docker/docker/registry"
 	"github.com/docker/go-connections/sockets"
 	"github.com/docker/notary/trustpinning"
 	"github.com/docker/notary/tuf/data"
@@ -15,6 +14,8 @@ import (
 	"golang.docker.com/go-docker/registry/auth/challenge"
 	"golang.docker.com/go-docker/registry/transport"
 )
+
+const authClientID = "docker"
 
 func makeHubTransport(server, image string, authConfig *types.AuthConfig) http.RoundTripper {
 	base := http.DefaultTransport
@@ -108,7 +109,7 @@ func defaultTransport(server, image string, authConfig *types.AuthConfig) (http.
 	tokenHandlerOptions := auth.TokenHandlerOptions{
 		Transport: authTransport,
 		Scopes:    []auth.Scope{"pull"},
-		ClientID:  registry.AuthClientID,
+		ClientID:  authClientID,
 	}
 
 	if authConfig != nil {
